@@ -1,7 +1,3 @@
-// How to run (-n = matrix dimension) (-seed is optional)
-// Ex: go run code.go -n 5 -seed 313
-
-//Code
 package main
 
 import (
@@ -13,13 +9,11 @@ import (
 
 const MAXN = 2000 // Max value of N
 
-// Gaussian elimination without pivoting
 func gauss(A [][]float64, B []float64, X []float64) {
 	fmt.Println("Computing serially...")
 
 	N := len(B)
 
-	// Gaussian elimination
 	for norm := 0; norm < N-1; norm++ {
 		for row := norm + 1; row < N; row++ {
 			multiplier := A[row][norm] / A[norm][norm]
@@ -30,7 +24,6 @@ func gauss(A [][]float64, B []float64, X []float64) {
 		}
 	}
 
-	// Back substitution
 	for row := N - 1; row >= 0; row-- {
 		X[row] = B[row]
 		for col := N - 1; col > row; col-- {
@@ -41,7 +34,6 @@ func gauss(A [][]float64, B []float64, X []float64) {
 }
 
 func main() {
-	// Parse command-line arguments
 	N := flag.Int("n", 0, "Matrix dimension (required)")
 	seed := flag.Int64("seed", time.Now().UnixNano(), "Random seed (optional)")
 	flag.Parse()
@@ -54,39 +46,30 @@ func main() {
 	fmt.Printf("\nMatrix dimension N = %d.\n", *N)
 	fmt.Printf("Random seed = %d\n", *seed)
 
-	// Initialize random number generator
 	rand.Seed(*seed)
 
-	// Initialize matrices and vectors
 	A := initializeMatrix(*N)
 	B := initializeVector(*N)
 	X := make([]float64, *N)
 
-	// Print input matrices (for small N)
 	if *N < 10 {
 		printMatrix("A", A)
 		printVector("B", B)
 	}
 
-	// Start timing
 	start := time.Now()
 
-	// Gaussian Elimination
 	gauss(A, B, X)
 
-	// Stop timing
 	elapsed := time.Since(start)
 
-	// Print solution vector if N < 100
 	if *N < 100 {
 		printVector("X", X)
 	}
 
-	// Display timing results
 	fmt.Printf("\nElapsed time = %.3f ms\n", elapsed.Seconds()*1000)
 }
 
-// Initialize matrix A with random values
 func initializeMatrix(N int) [][]float64 {
 	fmt.Println("\nInitializing matrix A...")
 	A := make([][]float64, N)
@@ -99,7 +82,6 @@ func initializeMatrix(N int) [][]float64 {
 	return A
 }
 
-// Initialize vector B with random values
 func initializeVector(N int) []float64 {
 	fmt.Println("Initializing vector B...")
 	B := make([]float64, N)
@@ -109,7 +91,6 @@ func initializeVector(N int) []float64 {
 	return B
 }
 
-// Print matrix
 func printMatrix(name string, matrix [][]float64) {
 	fmt.Printf("\n%s =\n", name)
 	for _, row := range matrix {
@@ -120,7 +101,6 @@ func printMatrix(name string, matrix [][]float64) {
 	}
 }
 
-// Print vector
 func printVector(name string, vector []float64) {
 	fmt.Printf("\n%s = [", name)
 	for _, val := range vector {

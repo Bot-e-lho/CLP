@@ -1,4 +1,5 @@
 use rand::Rng;
+use std::env;
 use std::time::Instant;
 
 const MAXN: usize = 2000;
@@ -9,7 +10,6 @@ type Vector = Vec<f64>;
 fn gauss(a: &mut Matrix, b: &mut Vector, n: usize) -> Vector {
     let mut x = vec![0.0; n];
 
-    // Eliminação
     for norm in 0..n - 1 {
         for row in norm + 1..n {
             let multiplier = a[row][norm] / a[norm][norm];
@@ -20,7 +20,6 @@ fn gauss(a: &mut Matrix, b: &mut Vector, n: usize) -> Vector {
         }
     }
 
-    // Substituição reversa
     for row in (0..n).rev() {
         x[row] = b[row];
         for col in row + 1..n {
@@ -33,25 +32,27 @@ fn gauss(a: &mut Matrix, b: &mut Vector, n: usize) -> Vector {
 }
 
 fn main() {
-    let n = 5; // Pode mudar para testar tamanhos diferentes
-    let mut rng = rand::thread_rng();
-
-    let mut a: Matrix = (0..n)
-        .map(|_| (0..n).map(|_| rng.gen_range(-10.0..10.0)).collect())
-        .collect();
-    let mut b: Vector = (0..n).map(|_| rng.gen_range(-10.0..10.0)).collect();
-
-    println!("Matriz A:");
-    for row in &a {
-        println!("{:?}", row);
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        eprintln!("Usage: {} <matrix_size>", args[0]);
+        return;
     }
-    println!("Vetor B: {:?}", b);
+
+    let n: usize = args[1].parse().unwrap_or(0);
+    if n < 1 || n > MAXN {
+        eprintln!("Matrix size must be between 1 and {}", MAXN);
+        return;
+    }
+
+    let mut rng = rand::thread_rng();
+    let mut a: Matrix = (0..n)
+        .map(|_| (0..n).map(|_| rng.gen_range(0.0..100.0)).collect())
+        .collect();
+    let mut b: Vector = (0..n).map(|_| rng.gen_range(0.0..100.0)).collect();
 
     let start = Instant::now();
-    let x = gauss(&mut a, &mut b, n);
-    let duration = start.elapsed();
+    gauss(&mut a, &mut b, n);
+    let elapsed = start.elapsed();
 
-    println!("Solução X: {:?}", x);
-    println!("Tempo de execução: {:?}", duration);
+    println!("Elapsed time: {:.6} seconds", elapsed.as_secs_f64());
 }
-

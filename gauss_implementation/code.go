@@ -1,110 +1,63 @@
 package main
 
 import (
-	"flag"
-	"fmt"
-	"math/rand"
-	"time"
+    "fmt"
+    "math/rand"
+    "os"
+    "strconv"
+    "time"
 )
 
-const MAXN = 2000 // Max value of N
+const MAXN = 2000
 
-func gauss(A [][]float64, B []float64, X []float64) {
-	fmt.Println("Computing serially...")
+type Matrix [][]float64
+type Vector []float64
 
-	N := len(B)
-
-	for norm := 0; norm < N-1; norm++ {
-		for row := norm + 1; row < N; row++ {
-			multiplier := A[row][norm] / A[norm][norm]
-			for col := norm; col < N; col++ {
-				A[row][col] -= A[norm][col] * multiplier
-			}
-			B[row] -= B[norm] * multiplier
-		}
-	}
-
-	for row := N - 1; row >= 0; row-- {
-		X[row] = B[row]
-		for col := N - 1; col > row; col-- {
-			X[row] -= A[row][col] * X[col]
-		}
-		X[row] /= A[row][row]
-	}
+func gauss(a Matrix, b Vector, n int) Vector {
+    x := make(Vector, n)
+    for norm := 0; norm < n-1; norm++ {
+        for row := norm + 1; row < n; row++ {
+            multiplier := a[row][norm] / a[norm][norm]
+            for col := norm; col < n; col++ {
+                a[row][col] -= a[norm][col] * multiplier
+            }
+            b[row] -= b[norm] * multiplier
+        }
+    }
+    for row := n - 1; row >= 0; row-- {
+        x[row] = b[row]
+        for col := row + 1; col < n; col++ {
+            x[row] -= a[row][col] * x[col]
+        }
+        x[row] /= a[row][row]
+    }
+    return x
 }
 
 func main() {
-	N := flag.Int("n", 0, "Matrix dimension (required)")
-	seed := flag.Int64("seed", time.Now().UnixNano(), "Random seed (optional)")
-	flag.Parse()
-
-	if *N < 1 || *N > MAXN {
-		fmt.Printf("N = %d is out of range.\n", *N)
-		return
-	}
-
-	fmt.Printf("\nMatrix dimension N = %d.\n", *N)
-	fmt.Printf("Random seed = %d\n", *seed)
-
-	rand.Seed(*seed)
-
-	A := initializeMatrix(*N)
-	B := initializeVector(*N)
-	X := make([]float64, *N)
-
-	if *N < 10 {
-		printMatrix("A", A)
-		printVector("B", B)
-	}
-
-	start := time.Now()
-
-	gauss(A, B, X)
-
-	elapsed := time.Since(start)
-
-	if *N < 100 {
-		printVector("X", X)
-	}
-
-	fmt.Printf("\nElapsed time = %.3f ms\n", elapsed.Seconds()*1000)
-}
-
-func initializeMatrix(N int) [][]float64 {
-	fmt.Println("\nInitializing matrix A...")
-	A := make([][]float64, N)
-	for i := range A {
-		A[i] = make([]float64, N)
-		for j := range A[i] {
-			A[i][j] = float64(rand.Int31()) / 32768.0 // Int31 to mimic C random
-		}
-	}
-	return A
-}
-
-func initializeVector(N int) []float64 {
-	fmt.Println("Initializing vector B...")
-	B := make([]float64, N)
-	for i := range B {
-		B[i] = float64(rand.Int31()) / 32768.0 // Int31 to mimic C random
-	}
-	return B
-}
-
-func printMatrix(name string, matrix [][]float64) {
-	fmt.Printf("\n%s =\n", name)
-	for _, row := range matrix {
-		for _, val := range row {
-			fmt.Printf("%12.2f ", val)
-		}
-		fmt.Println()
-	}
-}
-
-func printVector(name string, vector []float64) {
-	fmt.Printf("\n%s = [", name)
-	for _, val := range vector {
-		fmt.Printf("%12.2f ", val)
-	}
-	fmt.Println("]")
+    if len(os.Args) < 2 {
+        fmt.Println("Usage: go run main.go <matrix_size>")
+        return
+    }
+    n, err := strconv.Atoi(os.Args[1])
+    if err != nil || n < 1 || n > MAXN {
+        fmt.Printf("Matrix size must be between 1 and %d\n", MAXN)
+        return
+    }
+    
+    a := make(Matrix, n)
+    b := make(Vector, n)
+    for i := 0; i < n; i++ {
+        a[i] = make(Vector, n)
+        for j := 0; j < n; j++ {
+            a[i][j] = rand.Float64() * 100
+        }
+        b[i] = rand.Float64() * 100
+    }
+    
+    start := time.Now()
+    gauss(a, b, n)
+    elapsed := time.Since(start)
+    
+    fmt.Printf("Elapsed time: %.6f seconds\n", elapsed.Seconds())
 }

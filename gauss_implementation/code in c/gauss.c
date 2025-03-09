@@ -4,7 +4,7 @@
 #include <time.h>
 #include <windows.h>
 
-#define MAXN 2000 
+#define MAXN 20000 
 
 int N;         
 float A[MAXN][MAXN], B[MAXN], X[MAXN]; 

@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-const MAXN = 2000
+const MAXN = 20000
 
 func gauss(A [][]float32, B []float32, N int) []float32 {
 	X := make([]float32, N)

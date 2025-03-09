@@ -34,13 +34,13 @@ fn main() {
     }
 
     let n: usize = args[1].parse().expect("Dimensão inválida");
-    if n < 1 || n > 2000 {
-        eprintln!("Dimensão deve ser entre 1 e 2000");
+    if n < 1 || n > 20000 {
+        eprintln!("Dimensão deve ser entre 1 e 20000");
         std::process::exit(0);
     }
 
     let seed: u64 = if args.len() >= 3 {
-        args[2].parse().expect("Semente inválida")
+        args[2].parse().expect("Seed inválida")
     } else {
         use std::time::{SystemTime, UNIX_EPOCH};
         SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs()

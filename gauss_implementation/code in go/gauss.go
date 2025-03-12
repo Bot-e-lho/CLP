@@ -16,12 +16,14 @@ var B []float32
 var X []float32
 
 func configurarParametros() {
-	if len(os.Args) >= 2 {
+	if len(os.Args) >= 3 {
 		n, err := strconv.Atoi(os.Args[1])
-		if err != nil || n < 1 || n > MAXN {
+		seed, errSeed := strconv.ParseInt(os.Args[2], 10, 64)
+		if err != nil || n < 1 || n > MAXN || errSeed != nil {
 			os.Exit(0)
 		}
 		N = n
+		rand.Seed(seed)
 	} else {
 		os.Exit(0)
 	}

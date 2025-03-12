@@ -1,24 +1,26 @@
 use std::env;
 use std::process;
 use std::time::Instant;
-use rand::Rng;
+use rand::{Rng, SeedableRng};
+use rand::rngs::StdRng;
 
 const MAXN: usize = 2000;
 
-fn configurar_parametros() -> usize {
+fn configurar_parametros() -> (usize, u64) {
     let args: Vec<String> = env::args().collect();
-    if args.len() < 2 {
+    if args.len() < 3 {
         process::exit(0);
     }
     let n: usize = args[1].parse().unwrap_or(0);
+    let seed: u64 = args[2].parse().unwrap_or(0);
     if n < 1 || n > MAXN {
         process::exit(0);
     }
-    n
+    (n, seed)
 }
 
-fn inicializar_dados(n: usize) -> (Vec<Vec<f32>>, Vec<f32>, Vec<f32>) {
-    let mut rng = rand::thread_rng();
+fn inicializar_dados(n: usize, seed: u64) -> (Vec<Vec<f32>>, Vec<f32>, Vec<f32>) {
+    let mut rng = StdRng::seed_from_u64(seed); 
     let mut a: Vec<Vec<f32>> = vec![vec![0.0; n]; n];
     for linha in 0..n {
         for coluna in 0..n {
@@ -53,9 +55,10 @@ fn gauss(n: usize, a: &mut Vec<Vec<f32>>, b: &mut Vec<f32>, x: &mut Vec<f32>) {
     }
 }
 
+
 fn main() {
-    let n = configurar_parametros();
-    let (mut a, mut b, mut x) = inicializar_dados(n);
+    let (n, seed) = configurar_parametros();
+    let (mut a, mut b, mut x) = inicializar_dados(n, seed);
 
     let inicio = Instant::now();
     gauss(n, &mut a, &mut b, &mut x);

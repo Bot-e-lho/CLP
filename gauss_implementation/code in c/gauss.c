@@ -8,16 +8,14 @@ int N;
 
 float A[MAXN][MAXN], B[MAXN], X[MAXN];
 
-void gauss();
-void configurar_parametros(int argc, char **argv);
-void inicializar_dados();
-
 void configurar_parametros(int argc, char **argv) {
-    if (argc >= 2) {
+    if (argc >= 3) {
         N = atoi(argv[1]);
+        int seed = atoi(argv[2]);
         if (N < 1 || N > MAXN) {
             exit(0);
         }
+        srand(seed);
     } else {
         exit(0);
     }

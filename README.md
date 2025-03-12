@@ -17,7 +17,17 @@ Este projeto tem como objetivo comparar as características das linguagens de pr
 
 ## 📂 Estrutura do Repositório
 
-📦 gauss_implementation ├── 📁 c/ # code in c │ ├── gauss.c ├── 📁 golang/ # code in go│ ├── gauss.go ├── 📁 rust/ # code in rust │ ├── gauss/ │ │ ├── src/ │ │ │ ├── main.rs └── 📄 README.md # Documentação do projeto
+📄 README.md # Documentação do projeto
+📄 LICENSE # licença do projeto
+📦 gauss_implementation ├── 📁 c/ # code in c │ ├── gauss.c 
+                        ├── 📁 golang/ # code in go│ ├── gauss.go 
+                        ├── 📁 rust/ # code in rust │ ├── teste
+                                                    │ ├── gauss/ │ ├── 📄 gitgnore
+                                                                 │ ├── 📄 Cargo.lock
+                                                                 │ ├── 📄 Cargo.toml
+                                                                 │ ├── src/ | ├── main.rs
+
+ 
 
 
 ---

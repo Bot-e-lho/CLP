@@ -1,84 +1,77 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <time.h>
 #include <windows.h>
 
-#define MAXN 20000 
+#define MAXN 2000
+int N;
 
-int N;         
-float A[MAXN][MAXN], B[MAXN], X[MAXN]; 
+float A[MAXN][MAXN], B[MAXN], X[MAXN];
 
 void gauss();
+void configurar_parametros(int argc, char **argv);
+void inicializar_dados();
 
-void parameters(int argc, char **argv) {
-    int seed = 0;
-
-    if (argc < 2) {
-        exit(0);
-    }
-
-    N = atoi(argv[1]);
-    if (N < 1 || N > MAXN) {
-        exit(0);
-    }
-
-    if (argc == 3) {
-        seed = atoi(argv[2]);
-        srand(seed);
-    } else {
-        srand((unsigned int)time(NULL));
-    }
-}
-
-void initialize_inputs() {
-    for (int i = 0; i < N; i++) {
-        B[i] = (float)rand() / 32768.0f; 
-        for (int j = 0; j < N; j++) {
-            A[i][j] = (float)rand() / 32768.0f;
+void configurar_parametros(int argc, char **argv) {
+    if (argc >= 2) {
+        N = atoi(argv[1]);
+        if (N < 1 || N > MAXN) {
+            exit(0);
         }
-        X[i] = 0.0f;
+    } else {
+        exit(0);
     }
 }
+
+void inicializar_dados() {
+    for (int linha = 0; linha < N; linha++) {
+        for (int coluna = 0; coluna < N; coluna++) {
+            A[linha][coluna] = (float)rand() / 32768.0;
+        }
+    }
+    
+    for (int i = 0; i < N; i++) {
+        B[i] = (float)rand() / 32768.0;
+        X[i] = 0.0;
+    }
+}
+
 
 void gauss() {
-    int norm, row, col;
-    float multiplier;
-
-    for (norm = 0; norm < N - 1; norm++) {
-        for (row = norm + 1; row < N; row++) {
-            multiplier = A[row][norm] / A[norm][norm];
-            for (col = norm; col < N; col++) {
-                A[row][col] -= A[norm][col] * multiplier;
+    for (int pivo = 0; pivo < N - 1; pivo++) {
+        for (int linha = pivo + 1; linha < N; linha++) {
+            float multiplicador = A[linha][pivo] / A[pivo][pivo];
+            for (int coluna = pivo; coluna < N; coluna++) {
+                A[linha][coluna] -= A[pivo][coluna] * multiplicador;
             }
-            B[row] -= B[norm] * multiplier;
+            B[linha] -= B[pivo] * multiplicador;
         }
     }
 
-    for (row = N - 1; row >= 0; row--) {
-        X[row] = B[row];
-        for (col = row + 1; col < N; col++) {
-            X[row] -= A[row][col] * X[col];
+    for (int linha = N - 1; linha >= 0; linha--) {
+        X[linha] = B[linha];
+        for (int coluna = N-1; coluna > linha; coluna--) {
+            X[linha] -= A[linha][coluna] * X[coluna];
         }
-        X[row] /= A[row][row];
+        X[linha] /= A[linha][linha];
     }
 }
 
 int main(int argc, char **argv) {
-    LARGE_INTEGER frequency, start, end;
-    double elapsed;
+    LARGE_INTEGER frequencia, inicio, fim;
+    double tempo;
 
-    parameters(argc, argv);
-    initialize_inputs();
-
-    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceFrequency(&frequencia);
     
-    QueryPerformanceCounter(&start);
+    configurar_parametros(argc, argv);
+    inicializar_dados();
+
+    QueryPerformanceCounter(&inicio);
     gauss();
-    QueryPerformanceCounter(&end);
+    QueryPerformanceCounter(&fim);
 
-    elapsed = (double)(end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;    
-    printf("Tempo C: %.6f ms\n", elapsed);
+    tempo = (fim.QuadPart - inicio.QuadPart) * 1000.0 / frequencia.QuadPart;
 
+    printf("%.3f", tempo);
     return 0;
 }

@@ -1,71 +1,76 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"math/rand"
 	"os"
+	"strconv"
 	"time"
 )
 
-const MAXN = 20000
+const MAXN = 2000
 
-func gauss(A [][]float32, B []float32, N int) []float32 {
-	X := make([]float32, N)
+var N int
+var A [][]float32
+var B []float32
+var X []float32
 
-	for norm := 0; norm < N-1; norm++ {
-		for row := norm + 1; row < N; row++ {
-			multiplier := A[row][norm] / A[norm][norm]
-			for col := norm; col < N; col++ {
-				A[row][col] -= A[norm][col] * multiplier
-			}
-			B[row] -= B[norm] * multiplier
+func configurarParametros() {
+	if len(os.Args) >= 2 {
+		n, err := strconv.Atoi(os.Args[1])
+		if err != nil || n < 1 || n > MAXN {
+			os.Exit(0)
 		}
-	}
-
-	for row := N - 1; row >= 0; row-- {
-		X[row] = B[row]
-		for col := row + 1; col < N; col++ {
-			X[row] -= A[row][col] * X[col]
-		}
-		X[row] /= A[row][row]
-	}
-	return X
-}
-
-func main() {
-	nPtr := flag.Int("n", 0, "dimensão da matriz")
-	seedPtr := flag.Int64("seed", 0, "semente para o gerador aleatório")
-	flag.Parse()
-
-	if *nPtr < 1 || *nPtr > MAXN {
-		fmt.Fprintf(os.Stderr, "Dimensão deve ser entre 1 e %d\n", MAXN)
+		N = n
+	} else {
 		os.Exit(0)
 	}
+}
 
-	N := *nPtr
-	seed := *seedPtr
-	if seed == 0 {
-		seed = time.Now().Unix()
-	}
-	rand.Seed(seed)
-
-	A := make([][]float32, N)
+func inicializarDados() {
+	A = make([][]float32, N)
 	for i := 0; i < N; i++ {
 		A[i] = make([]float32, N)
 		for j := 0; j < N; j++ {
-			A[i][j] = rand.Float32()
+			A[i][j] = rand.Float32() / 32768.0
 		}
 	}
-	B := make([]float32, N)
+
+	B = make([]float32, N)
+	X = make([]float32, N)
 	for i := 0; i < N; i++ {
-		B[i] = rand.Float32()
+		B[i] = rand.Float32() / 32768.0
+		X[i] = 0.0
+	}
+}
+
+func gauss() {
+	for pivo := 0; pivo < N-1; pivo++ {
+		for linha := pivo + 1; linha < N; linha++ {
+			multiplicador := A[linha][pivo] / A[pivo][pivo]
+			for coluna := pivo; coluna < N; coluna++ {
+				A[linha][coluna] -= A[pivo][coluna] * multiplicador
+			}
+			B[linha] -= B[pivo] * multiplicador
+		}
 	}
 
-	start := time.Now()
-	_X := gauss(A, B, N)
-	elapsed := time.Since(start)
+	for linha := N - 1; linha >= 0; linha-- {
+		X[linha] = B[linha]
+		for coluna := N - 1; coluna > linha; coluna-- {
+			X[linha] -= A[linha][coluna] * X[coluna]
+		}
+		X[linha] /= A[linha][linha]
+	}
+}
 
-	fmt.Printf("Tempo Go: %.6f ms\n", float64(elapsed.Nanoseconds())/1e6)
-	_ = _X // Não estamos imprimindo X para focar na medição de tempo
+func main() {
+	configurarParametros()
+	inicializarDados()
+
+	inicio := time.Now()
+	gauss()
+	tempo := time.Since(inicio).Seconds() * 1000.0
+
+	fmt.Printf("Tempo de execucao: %.3f\n", tempo)
 }

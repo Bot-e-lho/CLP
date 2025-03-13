@@ -15,7 +15,7 @@ Este projeto tem como objetivo comparar as características das linguagens de pr
 - 📊 **Métricas do código (número de linhas, número de comandos, etc.)**  
 - 🚀 **Desempenho (Tempo de execução)**
 - 📊 **Escalabilidade (Diferentes tamanhos de matrizes, com possibilidade de diferentes seeds)**
-- 💻💻 ** Processamento (Dois sistemas operacionais com sistemas distindos, com caracteristicas distintas, onde serao feitos todos os experimentos) **
+- 💻💻 **Processamento (Dois sistemas operacionais com sistemas distindos, com caracteristicas distintas, onde serao feitos todos os experimentos)**
 
 
 ---

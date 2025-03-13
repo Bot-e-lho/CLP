@@ -1,4 +1,6 @@
-# Comparação de Implementações: C, Rust e Golang
+# Opção B de implementação.
+
+## Comparação de Implementações: C, Rust e Golang
 
 ## 📌 Integrantes do Grupo
 - **Miguel Rodrigues Botelho**  

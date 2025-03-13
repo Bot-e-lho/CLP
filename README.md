@@ -104,13 +104,26 @@ Compilar e executar o código
 🐧 Linux
 ```bash
 cd rust/gauss
-cargo run --release
+cargo run <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 
 🖥 Windows
 ```bash
 cd rust/gauss
-cargo run --release
+cargo run <N> (tamanho da matriz) <SEED> (valor SEED)
+```
+Compilar e executar o código com flag
+
+🐧 Linux
+```bash
+cd rust/gauss
+cargo run --release <N> (tamanho da matriz) <SEED> (valor SEED)
+```
+
+🖥 Windows
+```bash
+cd rust/gauss
+cargo run --release <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 
 🏎 Golang
@@ -131,11 +144,11 @@ Executar o código
 🐧 Linux
 ```bash
 cd golang/
-go run gauss.go
+go run gauss.go <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 🖥 Windows
 ```bash
 cd golang/
-go run gauss.go
+go run gauss.go <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 

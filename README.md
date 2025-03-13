@@ -12,10 +12,10 @@ Este projeto tem como objetivo comparar as características das linguagens de pr
 - 🛠 **Tipos de dados e gerenciamento de memória**  
 - ⚡ **Acesso a variáveis e chamadas de função**  
 - 🔁 **Comandos de controle de fluxo**  
-- 📊 **Métricas do código (número de linhas, número de comandos, etc.)**  
+- 📊 **Métricas do código (número de linhas, número de comandos e modularização)**  
 - 🚀 **Desempenho (Tempo de execução)**
 - 📊 **Escalabilidade (Diferentes tamanhos de matrizes, com possibilidade de diferentes seeds)**
-- 💻💻 **Processamento (Dois sistemas operacionais com sistemas distindos, com caracteristicas distintas, onde serao feitos todos os experimentos)**
+- 💻💻 **Processamento (Dois sistemas operacionais com sistemas distindos, com caracteristicas distintas, onde serão feitos todos os experimentos)**
 
 
 ---
@@ -52,7 +52,7 @@ Adicione o caminho do gcc.exe ao PATH do Windows.
 Compilar e executar o código
 
 
-Compilar e executar o código sem flag
+Compilar e executar o código (Sem flag otimizada, sem -O3)
 
 🐧 Linux
 ```bash
@@ -68,7 +68,7 @@ cd c/
 gcc gauss.c -o gauss.c
 ./gauss_c.exe <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
-Compilar e executar o código com flag
+Compilar e executar o código (Com flag otimizada, com -O3)
 
 🐧 Linux
 ```bash
@@ -99,7 +99,7 @@ Baixe e instale pelo site oficial: Rust Lang
 Reinicie o terminal após a instalação.
 Compilar e executar o código
 
-Compilar e executar o código
+Compilar e executar o código (Sem flag otimizada, sem --release)
 
 🐧 Linux
 ```bash
@@ -112,7 +112,7 @@ cargo run <N> (tamanho da matriz) <SEED> (valor SEED)
 cd rust/gauss
 cargo run <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
-Compilar e executar o código com flag
+Compilar e executar o código (Com flag otimizada, com --release)
 
 🐧 Linux
 ```bash

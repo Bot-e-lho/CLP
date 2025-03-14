@@ -58,7 +58,7 @@ Compilar e executar o código (Sem flag otimizada, sem -O3)
 
 🐧 Linux
 ```bash
-cd c/
+cd '.\CLP-main\gauss_implementation\code in c\'
 gcc gauss_linux.c -o gauss_c
 ./gauss_c <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
@@ -66,15 +66,15 @@ gcc gauss_linux.c -o gauss_c
 
 🖥 Windows
 ```bash
-cd c/
+cd '.\CLP-main\gauss_implementation\code in c\' 
 gcc gauss.c -o gauss.c
-./gauss_c.exe <N> (tamanho da matriz) <SEED> (valor SEED)
+./gauss_c <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 Compilar e executar o código (Com flag otimizada, com -O3)
 
 🐧 Linux
 ```bash
-cd c/
+cd '.\CLP-main\gauss_implementation\code in c\'
 gcc -O3 gauss_linux.c -o gauss_c
 ./gauss_c <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
@@ -82,9 +82,9 @@ gcc -O3 gauss_linux.c -o gauss_c
 
 🖥 Windows
 ```bash
-cd c/
+cd '.\CLP-main\gauss_implementation\code in c\'
 gcc -O3 gauss.c -o gauss.c
-./gauss_c.exe <N> (tamanho da matriz) <SEED> (valor SEED)
+./gauss_c <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 
 🦀 Rust
@@ -105,26 +105,26 @@ Compilar e executar o código (Sem flag otimizada, sem --release)
 
 🐧 Linux
 ```bash
-cd rust/gauss
+cd '.\CLP-main\gauss_implementation\code in rust\gauss\src\'
 cargo run <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 
 🖥 Windows
 ```bash
-cd rust/gauss
+cd '.\CLP-main\gauss_implementation\code in rust\gauss\src\'
 cargo run <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 Compilar e executar o código (Com flag otimizada, com --release)
 
 🐧 Linux
 ```bash
-cd rust/gauss
+cd '.\CLP-main\gauss_implementation\code in rust\gauss\src\'
 cargo run --release <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 
 🖥 Windows
 ```bash
-cd rust/gauss
+cd '.\CLP-main\gauss_implementation\code in rust\gauss\src\'
 cargo run --release <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 
@@ -139,18 +139,17 @@ Instalar o Go
 
 Baixe e instale pelo site oficial: Download Go
 Reinicie o terminal após a instalação.
-Executar o código
 
 Executar o código
 
 🐧 Linux
 ```bash
-cd golang/
+cd '.\CLP-main\gauss_implementation\code in go\'
 go run gauss.go <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 🖥 Windows
 ```bash
-cd golang/
+cd '.\CLP-main\gauss_implementation\code in go\'
 go run gauss.go <N> (tamanho da matriz) <SEED> (valor SEED)
 ```
 
